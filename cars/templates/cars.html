@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Estilo do Formulário de Busca */
+    .search-container {
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+    }
+
+    .search-input {
+        width: 300px;
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px 0 0 4px;
+        outline: none;
+    }
+
+    .search-button {
+        background-color: #0096c7;
+        color: white;
+        border: none;
+        padding: 0 25px;
+        font-size: 18px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+    }
+
+    /* Grid de Carros */
+    .car-grid {
+        display: grid;
+        /* Define 3 colunas iguais */
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px 40px 20px;
+    }
+
+    /* Card do Carro */
+    .car-card {
+        background-color: white;
+        border-radius: 15px; /* Bordas arredondadas como na foto */
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .car-card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Imagem ajustada */
+    .car-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover; /* Mantém a proporção sem esticar */
+        display: block;
+    }
+
+    /* Informações do Card */
+    .car-info {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .car-card h2 {
+        font-size: 1.2rem;
+        margin: 10px 0;
+        color: #333;
+    }
+
+    .car-card p {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+        .car-grid {
+            grid-template-columns: 1fr;
+        }
+        .search-input {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="search-container">
+    <form method="GET" action="{% url 'car_list' %}" style="display:flex;">
+        <input type="text" name="search" class="search-input" placeholder="Buscar carro...">
+        <button type="submit" class="search-button">Buscar</button>
+    </form>
+</div>
+
+<div class="car-grid">
+    {% if cars %}
+        {% for car in cars %}
+            <div class="car-card">
+                <img src="{{ car.photo.url }}" alt="{{ car.model }}">
+                <div class="car-info">
+                    <h2>{{ car.brand }} {{ car.model }}</h2>
+                    <p>{{ car.factory_year }} - R$ {{ car.value }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="grid-column: 1/-1; text-align: center;">Nenhum carro encontrado.</p>
+    {% endif %}
+</div>
+{% endblock %}
