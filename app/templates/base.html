@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +30,7 @@
             color: #fff;
             height: 60px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
         }
 
@@ -79,32 +80,16 @@
     <header>
         <nav>
             <ul>
-               {% if user.is_authenticated%}                               
-               {% comment %} se o usuário estiver logado, deve aparecer a opção de Cadastrar novos carros {% endcomment %}
-                 <li> Olá, {{user.username}}</li>
-                 <li><a href="{% url 'new_car' %}">Cadastrar carro</a><li>
-                
-               {%endif%}
-
-                {% comment %} se o usuário não estiver logado deve aparecer o registre-se e o login {% endcomment %}
-               {%if not user.is_authenticated%}
-                 <li><a href="{% url 'register' %}">Cadastre-se</a><li> 
-                 <li><a href="{% url 'login' %}">Login</a><li>
-             {%endif%}
-        
-               {% comment %} Se o usuário depois de logar quiser sair {% endcomment %}
-               {% if user.is_authenticated%} 
-                 <li><a href="{% url 'logout' %}">Sair</a><li>
-               {%endif%} 
-
-
-
-                    
-               
-
-
-                    
-                </li>
+                {% if user.is_authenticated %}
+                <li>Olá, {{ user.username }}</li>
+                <li><a href="{% url 'new_car' %}">Cadastrar carro</a></li>
+                <li><a href="{% url 'car_list' %}">Carros</a></li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+                {% else %}
+                <li><a href="{% url 'register' %}">Cadastre-se</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'car_list' %}">Carros</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
@@ -116,7 +101,8 @@
 
     <footer>
         <p>&copy; 2026 PycodeBR Multimarcas</p>
-        
+
     </footer>
 </body>
+
 </html>
